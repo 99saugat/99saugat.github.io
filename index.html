@@ -24,6 +24,7 @@
             padding: 0px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         .marquee {
@@ -51,13 +52,49 @@
         .logo img {
             max-width: 50%;
             height: 25%;
-            margin-top: 20px; /* Added margin to the left of the image */
+            margin-top: 20px;
         }
-      
-              .signature img {
+
+        .signature img {
             max-width: 10%;
             height: auto;
-            margin-bottom: 20px; /* Added margin to the left of the image */
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .print-button, .linkedin-button, .copy-url-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: navy;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .linkedin-button {
+            background-color: #0077B5;
+        }
+
+        .copy-url-button {
+            background-color: navy;
+        }
+
+        .copyright {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f0f0f0;
+            padding: 10px 0;
+            color: #333;
+            font-size: 14px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
@@ -121,9 +158,8 @@
                     </div>
                     
                     <div class="signature">
-                        <img src="https://4.bp.blogspot.com/-CZfqs8oUvW8/UbhvKRzw3fI/AAAAAAAAB8o/D1kQrOmKLVs/s320/signature_scan.gif" alt="Certificate Logo">
+                        <img src="https://4.bp.blogspot.com/-CZfqs8oUvW8/UbhvKRzw3fI/AAAAAAAAB8o/D1kQrOmKLVs/s320/signature_scan.gif" alt="Signature">
                     </div>
-                    
                 </div>
             `;
         }
@@ -133,12 +169,42 @@
             certificateContainer.innerHTML = content;
         }
 
+        function printCertificate() {
+            window.print();
+        }
+
+        function shareOnLinkedIn() {
+            // Add your logic to construct the LinkedIn share URL
+            var linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://99saugat.github.io/?' + numberToSearch)}`;
+            window.open(linkedInUrl, '_blank');
+        }
+
+        function copyUrl() {
+            var urlToCopy = window.location.href;
+            navigator.clipboard.writeText(urlToCopy).then(function() {
+                alert('URL copied to clipboard!');
+            }).catch(function(error) {
+                console.error('Unable to copy URL to clipboard', error);
+            });
+        }
+
         window.onload = extractNumberFromUrl;
     </script>
 </head>
 <body>
     <!-- Container to display the certificate on the webpage -->
     <div id="certificate"></div>
+    
+    <!-- Buttons outside the certificate border -->
+    <div class="buttons">
+        <button class="print-button" onclick="printCertificate()">Print Certificate</button>
+        <button class="linkedin-button" onclick="shareOnLinkedIn()">Share on LinkedIn</button>
+        <button class="copy-url-button" onclick="copyUrl()">Copy URL</button>
+    </div>
+    <br><br><br>
+    <!-- Copyright notice at the bottom -->
+    <div class="copyright">
+        &copy; EWB Nepal
+    </div>
 </body>
 </html>
-
