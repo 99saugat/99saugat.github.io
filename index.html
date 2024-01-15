@@ -27,9 +27,18 @@
 
 <br><br>
 
+<script type="text/javascript">
+        function Copy() 
+            {
+                    //var Url = document.createElement("textarea");
+                    urlCopied.innerHTML = window.location.href;
+                    //Copied = Url.createTextRange();
+                    //Copied.execCommand("Copy");
+            }
+    </script>    
 <button class="button button1">Download</button>
 &emsp;
-<button class="button button2" id="copy">Copy Link</button>
+<input type="button" value="Copy Url" onclick="Copy();" />
 &emsp;
 <button class="button button2">Share on Linkedin</button>
 
