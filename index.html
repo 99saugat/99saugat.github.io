@@ -1,22 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>EWB Certificate Verification
-</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            color: black;
+            font-family: Georgia, serif;
+            font-size: 20px;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        #certificate {
+            max-width: 750px;
+            margin: 50px auto;
+            padding: 0px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .marquee {
+            color: blue;
+            font-size: 48px;
+            margin: 20px;
+        }
+
+        .assignment {
+            margin: 20px;
+        }
+
+        .person {
+            border-bottom: 2px solid black;
+            font-size: 24px;
+            font-style: italic;
+            margin: 5px auto;
+            width: 400px;
+        }
+
+        .reason {
+            margin: 20px;
+        }
+
+        .logo img {
+            max-width: 50%;
+            height: 25%;
+            margin-top: 20px; /* Added margin to the left of the image */
+        }
+      
+              .signature img {
+            max-width: 10%;
+            height: auto;
+            margin-bottom: 20px; /* Added margin to the left of the image */
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        var numberToSearch;
+
+        function extractNumberFromUrl() {
+            var url = window.location.href;
+            var questionMarkIndex = url.indexOf("?");
+
+            if (questionMarkIndex !== -1) {
+                numberToSearch = url.substring(questionMarkIndex + 1);
+                console.log("Extracted Number:", numberToSearch);
+                searchNumber();
+            } else {
+                displayCertificate("No number found in the URL");
+            }
+        }
+
+        function searchNumber() {
+            Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQQktvO3TjRjGUduguC6n4PSZPnpXBoL7eXuuLDY4TA9WUOedxGXuw3xigAbyUC8iFlrct7PEXjy0ks/pub?gid=0&single=true&output=csv", {
+                download: true,
+                header: true,
+                complete: handleCsvData
+            });
+        }
+
+        function handleCsvData(result) {
+            console.log("Parsed CSV Data:", result.data);
+            var matchingRow = result.data.find(row => Object.values(row).includes(numberToSearch));
+
+            if (matchingRow) {
+                displayCertificate(buildCertificateContent(matchingRow));
+            } else {
+                displayCertificate("No matching row found for the number: " + numberToSearch);
+            }
+        }
+
+        function buildCertificateContent(data) {
+            return `
+                <div id="certificate" style="border: 20px solid orange;">
+                    <div class="logo">
+                        <img src="https://raw.githubusercontent.com/99saugat/99saugat.github.io/main/logos.png" alt="Certificate Logo">
+                    </div>
+
+                    <div class="marquee">
+                        Certificate of Appreciation
+                    </div>
+
+                    <div class="assignment">
+                        This certificate is presented to
+                    </div>
+
+                    <div class="person">
+                        <h3>${data['Name']}</h3>
+                    </div>
+
+                    <div class="reason">
+                        For his/her valuable contribution as a service learner<br/><br/>
+                        in ${data['Program']}.
+                    </div>
+                    
+                    <div class="signature">
+                        <img src="https://4.bp.blogspot.com/-CZfqs8oUvW8/UbhvKRzw3fI/AAAAAAAAB8o/D1kQrOmKLVs/s320/signature_scan.gif" alt="Certificate Logo">
+                    </div>
+                    
+                </div>
+            `;
+        }
+
+        function displayCertificate(content) {
+            var certificateContainer = document.getElementById("certificate");
+            certificateContainer.innerHTML = content;
+        }
+
+        window.onload = extractNumberFromUrl;
+    </script>
 </head>
 <body>
-
-<center>
-
-<img style='height: 50%; width: 50%; object-fit: contain' src="https://99saugat.github.io/saugat1.jpeg">
-
-<br><br>
-
-<form action="https://linkedin.com/shareArticle?url=https://99saugat.github.io">
-    <input type="submit" value="Share on LinkedIn" style="font-size: 16px; padding: 10px 20px;"/>
-</form>
-
-</center>
-
+    <!-- Container to display the certificate on the webpage -->
+    <div id="certificate"></div>
 </body>
 </html>
+
