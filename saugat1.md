@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html>
+<head>
 <style>
 .button {
   border: none;
@@ -26,12 +29,6 @@
 
 <button class="button button1">Download</button>
 &emsp;
-<script type="text/javascript">
-    document.querySelector("#copy").onclick = function() {
-      document.querySelector("#url").select();
-      document.execCommand('copy');
-    };
-    </script>
 <button class="button button2" id="copy">Copy Link</button>
 &emsp;
 <button class="button button2">Share on Linkedin</button>
@@ -39,3 +36,4 @@
 </center>
 
 </body>
+</html>
