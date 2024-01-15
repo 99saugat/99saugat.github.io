@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
 <style>
 .button {
   border: none;
@@ -42,4 +39,3 @@
 </center>
 
 </body>
-</html>
