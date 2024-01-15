@@ -5,7 +5,7 @@
 .button {
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 5px 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -15,32 +15,34 @@
 }
 
 .button1 {background-color: #008CBA;} /* Blue */
-.button2 {background-color: #008CBA;} /* Blue */
-.button3 {background-color: #008CBA;} /* Blue */
 </style>
 </head>
 <body>
 
 <center>
 
-<img style='height: 50%; width: 50%; object-fit: contain' src="https://raw.githubusercontent.com/99saugat/99saugat.github.io/main/saugat1.jpeg">
+<img style='height: 50%; width: 50%; object-fit: contain' src="https://99saugat.github.io/saugat1.jpeg">
 
 <br><br>
 
-<script type="text/javascript">
-        function Copy() 
-            {
-                    //var Url = document.createElement("textarea");
-                    urlCopied.innerHTML = window.location.href;
-                    //Copied = Url.createTextRange();
-                    //Copied.execCommand("Copy");
-            }
-    </script>    
-<button class="button button1">Download</button>
-&emsp;
-<input type="button" value="Copy Url" onclick="Copy();" />
-&emsp;
-<button class="button button2">Share on Linkedin</button>
+<script>
+function copyToClipboard(text) {
+var inputc = document.body.appendChild(document.createElement("input"));
+inputc.value = window.location.href;
+inputc.focus();
+inputc.select();
+document.execCommand('copy');
+inputc.parentNode.removeChild(inputc);
+alert("URL Copied.");
+}
+</script>
+
+<button class="button button1" onclick="copyToClipboard()">Copy Link</button>
+
+<br><br>
+
+<script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+<script type="IN/Share" data-url="https://99saugat.github.io/saugat1.jpeg"></script>
 
 </center>
 
