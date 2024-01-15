@@ -23,7 +23,9 @@
 
 <center>
 
-<img style='height: 100%; width: 100%; object-fit: contain' src="https://raw.githubusercontent.com/99saugat/99saugat.github.io/main/saugat1.jpeg">
+<img style='height: 75%; width: 75%; object-fit: contain' src="https://raw.githubusercontent.com/99saugat/99saugat.github.io/main/saugat1.jpeg">
+
+<br><br>
 
 <button class="button button1">Download</button>
 &emsp;
