@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            color: black;
+            font-family: Georgia, serif;
+            font-size: 20px;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        #certificate {
+            max-width: 750px;
+            margin: 50px auto;
+            padding: 0px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .marquee {
+            color: blue;
+            font-size: 48px;
+            margin: 10px;
+        }
+
+        .assignment {
+            margin: 20px;
+        }
+
+        .person {
+            border-bottom: 2px solid black;
+            font-size: 24px;
+            font-style: italic;
+            margin: 15px;
+        }
+
+        .reason {
+            margin: 20px;
+        }
+
+        .logo img {
+            max-width: 50%;
+            height: 25%;
+            margin-top: 10px;
+        }
+
+        .verification-url {
+            margin: 20px;
+          font-size: 12px;
+        }
+
+        .print-button, .linkedin-button, .copy-url-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: navy;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .linkedin-button {
+            background-color: #0077B5;
+        }
+
+        .copy-url-button {
+            background-color: navy;
+        }
+
+        .copyright {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f0f0f0;
+            padding: 10px 0;
+            color: #333;
+            font-size: 14px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        var numberToSearch;
+
+        function extractNumberFromUrl() {
+            var url = window.location.href;
+            var questionMarkIndex = url.indexOf("?");
+
+            if (questionMarkIndex !== -1) {
+                numberToSearch = url.substring(questionMarkIndex + 1);
+                console.log("Extracted Number:", numberToSearch);
+                searchNumber(url); // Pass the current URL to the searchNumber function
+            } else {
+                displayCertificate("Please enter the correct certification ID.");
+            }
+        }
+
+        function searchNumber(url) {
+            Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQQktvO3TjRjGUduguC6n4PSZPnpXBoL7eXuuLDY4TA9WUOedxGXuw3xigAbyUC8iFlrct7PEXjy0ks/pub?gid=0&single=true&output=csv", {
+                download: true,
+                header: true,
+                complete: function(result) {
+                    handleCsvData(result, url);
+                }
+            });
+        }
+
+        function handleCsvData(result, url) {
+            console.log("Parsed CSV Data:", result.data);
+            var matchingRow = result.data.find(row => Object.values(row).includes(numberToSearch));
+
+            if (matchingRow) {
+                displayCertificate(buildCertificateContent(matchingRow, url));
+            } else {
+                displayCertificate("No certificate found for the ID: " + numberToSearch);
+            }
+        }
+
+        function buildCertificateContent(data, url) {
+            return `
+                <div id="certificate" style="border: 20px solid navy;">
+                    <div class="logo">
+                        <img src="https://raw.githubusercontent.com/99saugat/99saugat.github.io/main/logos.png" alt="Certificate Logo">
+                    </div>
+
+                    <div class="marquee">
+                        Certificate of Appreciation
+                    </div>
+
+                    <div class="assignment">
+                        This certificate is presented to
+                    </div>
+
+                    <div class="person">
+                        <h3>${data['Name']}</h3>
+                    </div>
+
+                    <div class="reason">
+                        For his/her valuable contribution as a service learner in<br/><br/>
+                         ${data['Program']} for five days, six hours each day.
+                    </div>
+                    
+                    <div class="verification-url">
+                        <p>This certificate can be verified at: <br><code>${url}</code><br><br>Date: ${data['Date']}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayCertificate(content) {
+            var certificateContainer = document.getElementById("certificate");
+            certificateContainer.innerHTML = content;
+        }
+
+        function printCertificate() {
+            window.print();
+        }
+
+        function shareOnLinkedIn() {
+            var linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://99saugat.github.io/?' + numberToSearch)}`;
+            window.open(linkedInUrl, '_blank');
+        }
+
+        function copyUrl() {
+            var urlToCopy = window.location.href;
+            navigator.clipboard.writeText(urlToCopy).then(function() {
+                alert('URL copied to clipboard!');
+            }).catch(function(error) {
+                console.error('Unable to copy URL to clipboard', error);
+            });
+        }
+
+        window.onload = extractNumberFromUrl;
+    </script>
+</head>
+<body>
+    <div id="certificate"></div>
+    
+    <div style="display: flex; justify-content: center;">
+        <button class="print-button" onclick="printCertificate()">Print Certificate</button>
+        <button class="linkedin-button" onclick="shareOnLinkedIn()">Share on LinkedIn</button>
+        <button class="copy-url-button" onclick="copyUrl()">Copy URL</button>
+    </div>
+    <br><br><br>
+    <div class="copyright">
+        &copy; EWB Nepal
+    </div>
+</body>
+</html>
